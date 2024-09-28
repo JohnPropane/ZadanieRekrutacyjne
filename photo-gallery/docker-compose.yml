@@ -1,0 +1,22 @@
+services:
+  db:
+    container_name: postgresqlPhotoGallery
+    image: postgres:14.1
+    environment:
+      POSTGRES_USER: hubert
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgresql
+    volumes:
+      - db:/data/postgresqlPhotoGallery
+    ports:
+      - "5332:5432"
+    networks:
+      - db
+    restart: unless-stopped
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  db:

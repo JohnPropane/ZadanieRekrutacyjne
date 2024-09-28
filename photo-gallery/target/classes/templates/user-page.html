@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona Użytkownika</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <h1>Witaj, Użytkowniku!</h1>
+        <a href="/logout" class="btn btn-danger">Wyloguj się</a>
+    </div>
+
+    <section class="mt-5">
+        <h2>All Galleries</h2>
+
+        <!-- Komunikat, gdy nie ma galerii -->
+        <p th:if="${#lists.isEmpty(galleries)}" class="alert alert-warning">There is not any gallery created yet</p>
+
+        <!-- Lista galerii użytkownika -->
+        <ul class="list-group" th:if="${!#lists.isEmpty(galleries)}">
+            <li class="list-group-item mt-2" th:each="gallery : ${galleries}">
+                <a th:href="@{/gallery/{id}(id=${gallery.id})}" th:text="${gallery.name}" class="text-primary"></a>
+            </li>
+        </ul>
+    </section>
+</div>
+
+<!-- Bootstrap scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

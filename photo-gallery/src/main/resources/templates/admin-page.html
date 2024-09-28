@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <h1>Witaj, Administratorze!</h1>
+        <a href="/logout" class="btn btn-danger">Wyloguj się</a>
+    </div>
+
+    <section class="mt-5">
+        <h2>Create Gallery</h2>
+        <form th:action="@{/add-gallery}" method="post" class="mt-3">
+            <div class="form-group">
+                <label for="galleryName">Gallery name:</label>
+                <input type="text" name="galleryName" id="galleryName" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="galleryUser">Choose user:</label>
+                <select name="galleryUser" id="galleryUser" class="form-control">
+                    <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.login}"></option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </section>
+
+    <section class="mt-5">
+        <h2>All Galleries</h2>
+
+        <p th:if="${#lists.isEmpty(galleries)}" class="alert alert-warning">There is not any gallery created yet</p>
+
+        <ul class="list-group" th:if="${!#lists.isEmpty(galleries)}">
+            <li class="list-group-item mt-2" th:each="gallery : ${galleries}">
+                <h4 th:text="'Gallery name: ' + ${gallery.name}"></h4>
+                <p th:text="'Owner: ' + ${gallery.owner.login}"></p>
+
+                <h5 class="mt-4">Add Photo to this Gallery</h5>
+                <form th:action="@{/add-photo}" method="post" class="mt-3">
+                    <div class="form-group">
+                        <label for="photoName">Photo name:</label>
+                        <input type="text" name="photoName" id="photoName" class="form-control" required>
+                    </div>
+                    <input type="hidden" name="galleryId" id="galleryId" th:value="${gallery.id}">
+                    <button type="submit" class="btn btn-success">Add</button>
+                </form>
+            </li>
+        </ul>
+    </section>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
